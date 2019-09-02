@@ -1,1 +1,1 @@
-# Bulls-and-Bears-Stock-Viz
+# Bulls-and-Bears-Viz

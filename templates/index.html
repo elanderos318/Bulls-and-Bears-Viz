@@ -3,17 +3,17 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Parallax Template - Materialize</title>
+  <title>Bulls and Bears Viz</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="../static/assets/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="../static/assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">Logo</a>
+      <a id="logo-container" href="#" class="brand-logo">Bulls & Bears</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="#">Navbar Link</a></li>
       </ul>
@@ -26,22 +26,54 @@
   </nav>
 
   <div id="index-banner" class="parallax-container">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <br><br>
-        <h1 class="header center teal-text text-lighten-2">Parallax Template</h1>
-        <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-        </div>
-        <div class="row center">
-          <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
-        </div>
-        <br><br>
-
-      </div>
-    </div>
-    <div class="parallax"><img src="background1.jpg" alt="Unsplashed background img 1"></div>
+    <div class="parallax"><img src="../static/assets/css/images/Stock-Charts-7.jpg" alt="Unsplashed background img 1"></div>
   </div>
+
+  <div class="section no-pad-bot">
+    <div class="container">
+      <br><br>
+      <h1 class="header center green-text text-darken-3">Bulls & Bears</h1>
+      <h3 class="header center green-text text-lighten-1">Visualization of Capital Markets</h3>
+      <!-- <div class="row center">
+        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+      </div> -->
+      <!-- <div class="row center">
+        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
+      </div> -->
+      <br>
+
+    </div>
+  </div>
+
+  <div class = "container">
+    <div class = "row center">
+
+      <div class="col s12">
+
+        <div class="card horizontal">
+          <div class="card-stacked">
+            <div class="card-content">
+              <p>The first chart displays S&P 500 prices from Jan 3, 2007 to Mar 25, 2019. The blue lines represent "bull" markets, whereas the red
+                lines represent "bear markets". The market changes when prices rise above or fall below a certain threshold, usually 20%, from
+                all-time lows and all-time highs respectively. The last 12 or so years have been defined by a sharp rise in index value, one of the
+                strongest bull markets in history.
+              </p>
+              <p>
+                The three histograms below the S&P 500 represent the distribution of 'absolute' daily price changes in the index - the first over the 
+                entire range of data, the second only during bull markets, and the third only during bear markets. These help provide a picture of 
+                'volatility' during times of boom and bust. Below, you can adjust the sensitivity of what defines a 'market change' (default 20).
+              </p>
+            </div>
+
+            <div class="card-action">
+              <a href="#">This is a link</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div> <!-- "row center"-->
+  </div> <!--"container-->
 
 
   <div class="container">
@@ -89,7 +121,7 @@
         </div>
       </div>
     </div>
-    <div class="parallax"><img src="background2.jpg" alt="Unsplashed background img 2"></div>
+    <div class="parallax"><img src="../static/assets/css/images/background2.jpg" alt="Unsplashed background img 2"></div>
   </div>
 
   <div class="container">
@@ -115,7 +147,7 @@
         </div>
       </div>
     </div>
-    <div class="parallax"><img src="background3.jpg" alt="Unsplashed background img 3"></div>
+    <div class="parallax"><img src="../static/assets/css/images/background3.jpg" alt="Unsplashed background img 3"></div>
   </div>
 
   <footer class="page-footer teal">
@@ -157,8 +189,8 @@
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src="js/init.js"></script>
+  <script src="../static/assets/js/materialize.js"></script>
+  <script src="../static/assets/js/init.js"></script>
 
   </body>
 </html>
