@@ -46,13 +46,16 @@ function spGraph() {
     }
 
 
-    var svgWidth = 960;
-    var svgHeight = 600;
+    // var svgWidth = 960;
+    // var svgHeight = 600;
+
+    var svgWidth = 900;
+    var svgHeight = 500;
 
     var margin = {
     top: 20,
     right: 40,
-    bottom: 180,
+    bottom: 60,
     left: 100
     };
 
@@ -429,14 +432,25 @@ function hist1() {
         svgArea.remove();
     }
 
-    var svgWidth2 = 1300;
-    var svgHeight2 = 600;
+    // var svgWidth2 = 550;
+    // var svgHeight2 = 500;
+
+
+    // var margin2 = {
+    // top: 20,
+    // right: 40,
+    // bottom: 180,
+    // left: 100
+    // };
+
+    var svgWidth2 = 550;
+    var svgHeight2 = 620;
 
     var margin2 = {
     top: 20,
-    right: 380,
-    bottom: 180,
-    left: 100
+    right: 40,
+    bottom: 250,
+    left: 70
     };
 
     var width2 = svgWidth2 - margin2.left - margin2.right;
@@ -521,7 +535,7 @@ function hist1() {
         chartGroup2.append("text")
             .attr("transform", `translate(${width2 / 2}, ${height2 + margin2.top + 30})`)
             .attr("text-anchor", "middle")
-            .attr("font-size", "18px")
+            .attr("font-size", "15px")
             .attr("fill", d3.rgb(150,150,150))
             .attr("stroke", "black")
             .attr("stroke-width", "1px")
@@ -532,7 +546,7 @@ function hist1() {
             .attr("transform", `translate(0, ${height2 / 2}) rotate(270)`)
             .attr("y", "-50")
             .attr("text-anchor", "middle")
-            .attr("font-size", "18px")
+            .attr("font-size", "15px")
             .attr("fill", d3.rgb(150,150,150))
             .attr("stroke", "black")
             .attr("stroke-width", "1px")
@@ -542,7 +556,7 @@ function hist1() {
         chartGroup2.append("text")
             .attr("transform", `translate(${width2 / 2}, ${margin2.top})`)
             .attr("text-anchor", "middle")
-            .attr("font-size", "35px")
+            .attr("font-size", "20px")
             .attr("fill", d3.rgb(150,150,150))
             .attr("stroke", "green")
             .attr("stroke-width", "1px")
@@ -576,7 +590,7 @@ function hist1() {
         // for loop to display type of data
         for (var j = 0; j < aggregateString.length; j++) {
             chartGroup2.append("text")
-                .attr("transform", `translate(${width2 * 1.1}, ${(height2 / 2) + (j * 20)})`)
+                .attr("transform", `translate(${width2 / 3}, ${(height2 + 100) + (j * 20)})`)
                 .attr("text-anchor", "left")
                 .attr("font-size", "15px")
                 .attr("fill", d3.rgb(150,150,150))
@@ -589,7 +603,7 @@ function hist1() {
         // for loop to display numerical value
         for (var k = 0; k < aggregateArray.length; k++) {
             chartGroup2.append("text")
-                .attr("transform", `translate(${width2 * 1.3}, ${(height2 / 2) + (k * 20)})`)
+                .attr("transform", `translate(${(width2  / 3) * 1.8}, ${(height2 + 100) + (k * 20)})`)
                 .attr("text-anchor", "left")
                 .attr("font-size", "15px")
                 .attr("fill", d3.rgb(150,150,150))
@@ -618,15 +632,14 @@ function hist2() {
         svgArea.remove();
     }
 
-
-    var svgWidth3 = 1300;
-    var svgHeight3 = 600;
+    var svgWidth3 = 550;
+    var svgHeight3 = 620;
 
     var margin3 = {
     top: 20,
-    right: 380,
-    bottom: 180,
-    left: 100
+    right: 40,
+    bottom: 250,
+    left: 70
     };
 
     var width3 = svgWidth3 - margin3.left - margin3.right;
@@ -714,7 +727,7 @@ function hist2() {
         chartGroup3.append("text")
             .attr("transform", `translate(${width3 / 2}, ${height3 + margin3.top + 30})`)
             .attr("text-anchor", "middle")
-            .attr("font-size", "18px")
+            .attr("font-size", "15px")
             .attr("fill", d3.rgb(150,150,150))
             .attr("stroke", "black")
             .attr("stroke-width", "1px")
@@ -725,7 +738,7 @@ function hist2() {
             .attr("transform", `translate(0, ${height3 / 2}) rotate(270)`)
             .attr("y", "-50")
             .attr("text-anchor", "middle")
-            .attr("font-size", "18px")
+            .attr("font-size", "15px")
             .attr("fill", d3.rgb(150,150,150))
             .attr("stroke", "black")
             .attr("stroke-width", "1px")
@@ -735,7 +748,7 @@ function hist2() {
         chartGroup3.append("text")
             .attr("transform", `translate(${width3 / 2}, ${margin3.top})`)
             .attr("text-anchor", "middle")
-            .attr("font-size", "35px")
+            .attr("font-size", "20px")
             .attr("fill", d3.rgb(150,150,150))
             .attr("stroke", "blue")
             .attr("stroke-width", "1px")
@@ -769,7 +782,7 @@ function hist2() {
         // for loop to display type of data
         for (var j = 0; j < aggregateString.length; j++) {
             chartGroup3.append("text")
-                .attr("transform", `translate(${width3 * 1.1}, ${(height3 / 2) + (j * 20)})`)
+                .attr("transform", `translate(${width3 / 3}, ${(height3 + 100) + (j * 20)})`)
                 .attr("text-anchor", "left")
                 .attr("font-size", "15px")
                 .attr("fill", d3.rgb(150,150,150))
@@ -782,7 +795,7 @@ function hist2() {
         // for loop to display numerical value
         for (var k = 0; k < aggregateArray.length; k++) {
             chartGroup3.append("text")
-                .attr("transform", `translate(${width3 * 1.3}, ${(height3 / 2) + (k * 20)})`)
+                .attr("transform", `translate(${(width3  / 3) * 1.8}, ${(height3 + 100) + (k * 20)})`)
                 .attr("text-anchor", "left")
                 .attr("font-size", "15px")
                 .attr("fill", d3.rgb(150,150,150))
@@ -807,15 +820,14 @@ function hist3() {
         svgArea.remove();
     }
 
-
-    var svgWidth4 = 1300;
-    var svgHeight4 = 600;
+    var svgWidth4 = 550;
+    var svgHeight4 = 620;
 
     var margin4 = {
     top: 20,
-    right: 380,
-    bottom: 180,
-    left: 100
+    right: 40,
+    bottom: 250,
+    left: 70
     };
 
     var width4 = svgWidth4 - margin4.left - margin4.right;
@@ -903,7 +915,7 @@ function hist3() {
         chartGroup4.append("text")
             .attr("transform", `translate(${width4 / 2}, ${height4 + margin4.top + 30})`)
             .attr("text-anchor", "middle")
-            .attr("font-size", "18px")
+            .attr("font-size", "15px")
             .attr("fill", d3.rgb(150,150,150))
             .attr("stroke", "black")
             .attr("stroke-width", "1px")
@@ -914,7 +926,7 @@ function hist3() {
             .attr("transform", `translate(0, ${height4 / 2}) rotate(270)`)
             .attr("y", "-50")
             .attr("text-anchor", "middle")
-            .attr("font-size", "18px")
+            .attr("font-size", "15px")
             .attr("fill", d3.rgb(150,150,150))
             .attr("stroke", "black")
             .attr("stroke-width", "1px")
@@ -924,7 +936,7 @@ function hist3() {
         chartGroup4.append("text")
             .attr("transform", `translate(${width4 / 2}, ${margin4.top - 10})`)
             .attr("text-anchor", "middle")
-            .attr("font-size", "35px")
+            .attr("font-size", "20px")
             .attr("fill", d3.rgb(150,150,150))
             .attr("stroke", "red")
             .attr("stroke-width", "1px")
@@ -957,7 +969,7 @@ function hist3() {
         // for loop to display type of data
         for (var j = 0; j < aggregateString.length; j++) {
             chartGroup4.append("text")
-                .attr("transform", `translate(${width4 * 1.1}, ${(height4 / 2) + (j * 20)})`)
+                .attr("transform", `translate(${width4 / 3}, ${(height4 + 100) + (j * 20)})`)
                 .attr("text-anchor", "left")
                 .attr("font-size", "15px")
                 .attr("fill", d3.rgb(150,150,150))
@@ -970,7 +982,7 @@ function hist3() {
         // for loop to display numerical value
         for (var k = 0; k < aggregateArray.length; k++) {
             chartGroup4.append("text")
-                .attr("transform", `translate(${width4 * 1.3}, ${(height4 / 2) + (k * 20)})`)
+                .attr("transform", `translate(${(width4  / 3) * 1.8}, ${(height4 + 100) + (k * 20)})`)
                 .attr("text-anchor", "left")
                 .attr("font-size", "15px")
                 .attr("fill", d3.rgb(150,150,150))
