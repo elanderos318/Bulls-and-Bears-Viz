@@ -55,3 +55,23 @@ p {
 footer.page-footer {
   margin: 0;
 }
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+.bear {
+stroke: red;
+stroke-width: 2px;
+}
+
+.bull {
+stroke: rgb(0, 170, 255);
+stroke-width: 2px;
+}
+
+.input {
+margin-top: 25px;
+margin-bottom: 50px;
+}

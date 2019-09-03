@@ -12,7 +12,7 @@ var submitButton = d3.select(".input")
     .attr("type", "submit")
     .on("click", buttonClick)
 
-var threshold = 5;
+var threshold = 20;
 
 // Function to recreate graphs with new threshold percent value
 function buttonClick() {
