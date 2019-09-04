@@ -3,6 +3,8 @@
 This project makes use of a python flask backend to serve S&P 500 index data from Yahoo Finance, delivered to the front-end and displayed
 using D3. The idea is to display detailed information of drift and variance of index prices during "Bull" and "Bear" Markets. 
 
+Website: https://bulls-bears.herokuapp.com/
+
 Per Investopedia:
 
 ..* "the most common definition of a bull market is a situation in which stock prices rise by 20%, usually after a drop of 20% and before a second 20% decline"
