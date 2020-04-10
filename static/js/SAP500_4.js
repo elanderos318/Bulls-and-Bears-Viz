@@ -149,9 +149,9 @@ function spLine(data) {
                 if (changeFromHigh <= (threshold * -1)) {
                     var marketObject = {
                         type: "bull",
-                        dateRange: dates.slice(bullStart, i),
-                        priceRange: closePrices.slice(bullStart, i),
-                        marketRange: spData.slice(bullStart, i)
+                        dateRange: dates.slice(bullStart, i + 1),
+                        priceRange: closePrices.slice(bullStart, i + 1),
+                        marketRange: spData.slice(bullStart, i + 1)
                     };
                     markets.push(marketObject);
                     bearMarket = true;
@@ -164,9 +164,9 @@ function spLine(data) {
                 if (changeFromLow >= threshold) {
                     var marketObject = {
                         type: "bear",
-                        dateRange: dates.slice(bearStart, i),
-                        priceRange: closePrices.slice(bearStart, i),
-                        marketRange: spData.slice(bearStart, i)
+                        dateRange: dates.slice(bearStart, i + 1),
+                        priceRange: closePrices.slice(bearStart, i + 1),
+                        marketRange: spData.slice(bearStart, i + 1)
                     };
                     markets.push(marketObject);
                     bearMarket = false;
