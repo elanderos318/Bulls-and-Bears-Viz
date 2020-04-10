@@ -157,6 +157,12 @@ function spLine(data) {
                     bearMarket = true;
                     currentLow = closePrices[i];
                     bearStart = i;
+                    // Needed to add the below line -- script immediately checks
+                    // for whether the bear market changes based on changeFromLow - 
+                    // however the script doesn't allow a new value for currentLow, 
+                    // which affects changeFromLow, so it is a faulty check without
+                    // updating changeFromLow here
+                    changeFromLow = 0;
                 }
             }
 
