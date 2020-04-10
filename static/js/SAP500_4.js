@@ -57,12 +57,12 @@ function buttonClick() {
 
 
 var svgWidth = 900;
-var svgHeight = 500;
+var svgHeight = 550;
 
 var margin = {
 top: 20,
 right: 40,
-bottom: 60,
+bottom: 110,
 left: 100
 };
 
@@ -86,6 +86,207 @@ var chartGroup = svg.append("g")
 
 var svgArea = d3.select("body").select("#sap500Chart1").select(".spChart")
 
+
+d3.json("/sp_line_init").then(function(data) {
+    spLine(data);
+}).catch(function(e) {
+    console.log(e);
+})
+
+///// CREATE INITIAL LINE GRAPH
+function spLine(data) {
+    var init = data;
+
+    // create time parser
+    var parseTime = d3.timeParse("%Y-%m-%d");
+
+    // Modify data
+    init.forEach(function(data) {
+        data['date'] = parseTime(data['date']);
+        data['close'] = +data['close'];
+
+    });
+
+
+    function marketRanges(spData, threshold) {
+
+        var markets = [];
+
+        var dates = spData.map(function(d) {
+            return(d['date']);
+        });
+
+        var closePrices = spData.map(function(d) {
+            return(d['close']);
+        })
+
+        var bearMarket = false;
+
+        var bullStart = 0
+        var bearStart = 0
+
+        var currentHigh = closePrices[0];
+        var currentLow = closePrices[0];
+
+        for (var i = 0; i < spData.length; i++) {
+
+            changeFromHigh = (closePrices[i] - currentHigh)/currentHigh * 100;
+            changeFromLow = (closePrices[i] - currentLow)/currentLow * 100;
+
+            if (bearMarket === false) {
+                if (closePrices[i] > currentHigh) {
+                    currentHigh = closePrices[i];
+                }
+            }
+
+            if (bearMarket === true) {
+                if (closePrices[i] < currentLow) {
+                    currentLow = closePrices[i];
+                }
+            }
+
+            if (bearMarket === false) {
+                if (changeFromHigh <= (threshold * -1)) {
+                    var marketObject = {
+                        type: "bull",
+                        dateRange: dates.slice(bullStart, i),
+                        priceRange: closePrices.slice(bullStart, i),
+                        marketRange: spData.slice(bullStart, i)
+                    };
+                    markets.push(marketObject);
+                    bearMarket = true;
+                    currentLow = closePrices[i];
+                    bearStart = i;
+                }
+            }
+
+            if (bearMarket === true) {
+                if (changeFromLow >= threshold) {
+                    var marketObject = {
+                        type: "bear",
+                        dateRange: dates.slice(bearStart, i),
+                        priceRange: closePrices.slice(bearStart, i),
+                        marketRange: spData.slice(bearStart, i)
+                    };
+                    markets.push(marketObject);
+                    bearMarket = false;
+                    currentHigh = closePrices[i];
+                    bullStart = i;
+                }
+            }
+
+            if (bearMarket === false && i === (spData.length - 1)) {
+                var marketObject = {
+                    type: "bull",
+                    dateRange: dates.slice(bullStart, i + 1),
+                    priceRange: closePrices.slice(bullStart, i + 1),
+                    marketRange: spData.slice(bullStart, i + 1)
+                };
+                markets.push(marketObject);
+            }
+
+            if (bearMarket === true && i === (spData.length -1)) {
+                var marketObject = {
+                    type: "bear",
+                    dateRange: dates.slice(bearStart, i + 1),
+                    priceRange: closePrices.slice(bearStart, i + 1),
+                    marketRange: spData.slice(bearStart, i + 1)
+                };
+                markets.push(marketObject);
+            }
+
+        };
+
+        return(markets);
+
+    }
+
+    xTimeScale = d3.scaleTime()
+        .domain(d3.extent(init, d => d['date']))
+        .range([0, width]);
+
+    var yLinearScale = d3.scaleLinear()
+        .domain(d3.extent(init, d => d['close']))
+        .range([height, 0]);
+
+    lineGenerator = d3.line()
+        .x(d => xTimeScale(d['date']))
+        .y(d => yLinearScale(d['close']))
+
+    var bottomAxis = d3.axisBottom(xTimeScale)
+        .tickFormat(d3.timeFormat("%m-%d-%Y"));
+    var leftAxis = d3.axisLeft(yLinearScale);
+
+    // Append X Axis and Rotate Ticks
+    chartGroup.append("g")
+        .classed("lineX", true)
+        .attr("transform", `translate(0, ${height})`)
+        .call(bottomAxis)
+        .selectAll("text")
+        .attr("y", 0)
+        .attr("x", 9)
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(90)")
+        .style("text-anchor", "start");
+
+    // Append Y Axis
+    chartGroup.append("g")
+        .classed("lineY", true)
+        .call(leftAxis);
+
+    console.log(marketRanges(init, threshold))
+
+
+    // Append Chart Lines
+    var chartLines = chartGroup.selectAll('.line')
+        .data(marketRanges(init, threshold))
+        .enter()
+        .append("path")
+        .attr("d", function(d) {
+            return lineGenerator(d.marketRange)
+        })
+        .classed("line", true)
+        .classed("bear", function(d) {
+            return d.type == "bear";
+        })
+        .classed("bull", function(d) {
+            return d.type == "bull";
+        })
+        //.style("stroke-width", "3px")
+
+    chartGroup.append("text")
+        .attr("transform", `translate(${width / 2}, ${height + margin.top + 70})`)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "18px")
+        .attr("fill", d3.rgb(150,150,150))
+        .attr("stroke", "black")
+        .attr("stroke-width", "1px")
+        .attr("font-family", "sans-serif")
+        .text("Year");
+
+    chartGroup.append("text")
+        .attr("transform", `translate(0, ${height / 2}) rotate(270)`)
+        .attr("y", "-50")
+        .attr("text-anchor", "middle")
+        .attr("font-size", "18px")
+        .attr("fill", d3.rgb(150,150,150))
+        .attr("stroke", "black")
+        .attr("stroke-width", "1px")
+        .attr("font-family", "sans-serif")
+        .text("Index Close Price")
+
+    chartGroup.append("text")
+        .attr("transform", `translate(${width / 2}, ${margin.top})`)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "35px")
+        .attr("fill", "white")
+        .attr("stroke", "black")
+        .attr("stroke-width", "1.5px")
+        .attr("font-family", "sans-serif")
+        .text("S&P 500 Bull and Bear Markets")
+
+    // console.log(marketRanges(spData, 20))
+}
 
 
 
@@ -117,6 +318,8 @@ var svgArea = d3.select("body").select("#sap500Chart1").select(".spChart")
 
 //========================================= S&P 500 Graph =================================================================
 
+
+/*
 spGraph();
 
 function spGraph() {
@@ -345,6 +548,8 @@ function spGraph() {
     });
 
 }
+
+*/
 
 // ===================================== Define Histogram Functions=========================================================
 // =========================================================================================================================

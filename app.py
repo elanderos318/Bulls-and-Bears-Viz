@@ -3,6 +3,10 @@ import os
 import pandas as pd
 import numpy as np
 
+import datetime as dt
+
+import json
+
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
@@ -12,9 +16,45 @@ from flask import Flask, jsonify, render_template
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/BullsBearsDB.sqlite"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/bulls_bears.sqlite"
 
-engine = create_engine('sqlite:///db/BullsBearsDB.sqlite', echo=False)
+engine = create_engine('sqlite:///db/bulls_bears.sqlite', echo=False)
+
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+
+# Declare a Base using automap_base()
+Base = automap_base()
+# Use the Base class to reflect the database tables
+Base.prepare(engine, reflect=True)  
+# Assign the table classes to variables
+SP_500 = Base.classes.sp_data_v2
+
+
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+################################################################################
+
+'''
 
 ##########Treasury Yield Dataset
 #set up as pandas dataframe and rename variables
@@ -55,6 +95,8 @@ SAP500_DF = SAP500_DF.rename(columns={0: "Date", 1: "Open", 2: "High", 3: "Low",
 # #convert pandas dataframe to json
 SAP500_json = SAP500_DF.to_json(orient='records')
 
+'''
+
 
 #set up routes
 @app.route("/")
@@ -87,10 +129,38 @@ def Jan_Mar_Tweets():
     """Return """
     return(jsonify(Jan_Mar_Tweets_Json))
 
+@app.route("/sp_line_init")
+def sp_line_init():
+    
+    session = Session(engine)
+
+    line_query = session.query(SP_500.date, SP_500.close)
+    
+    line_list = []
+    keys = ("date", "close")
+
+    # Iteration for converting sqlalchemy date response into date string and appening to list
+    for query in line_query:
+        list_query = list(query)
+        list_query[0] = dt.datetime.strftime(list_query[0], "%Y-%m-%d")
+        line_dict = dict(zip(keys, list_query))
+        line_list.append(line_dict)
+
+    session.close()
+
+    line_json = json.dumps(line_list)
+
+    return line_json
+
+
+
+'''
 @app.route("/sap500_data")
 def sap500_route():
     """Return """
     return(jsonify(SAP500_json))
+'''
+
 
 if __name__ == "__main__":
     app.debug = True
