@@ -102,7 +102,7 @@ function spLine(data) {
     var parseTime = d3.timeParse("%Y-%m-%d");
 
     var dateFormatter = d3.timeFormat("%m/%d/%y");
-    var formatValue = d3.format("$,.2f");
+    var formatValue = d3.format(",.2f");
 
     // Modify data
     init.forEach(function(data) {
@@ -351,25 +351,6 @@ function spLine(data) {
         focus.select(".tooltip-close").text(formatValue(d['close']));
     } 
 
-    // function mousemove() {
-    //     var dates = init.map(d => d['date'])
-    //     var x0 = xTimeScale.invert(d3.mouse(this)[0]),
-    //         i = bisectDate(dates, x0, 1),
-    //         d0 = init[i - 1],
-    //         d1 = init[i],
-    //         d = x0 - d0['date'] > d1['date'] - x0 ? d1: d0;
-
-    //     console.log(i);
-    //     console.log(d3.mouse(this)[0])
-    //     console.log(x0)
-    //     // console.log(d)
-
-    //     focus.attr("transform", "translate(" + xTimeScale(d['date']) + ", " + yLinearScale(d['close']) + ")");
-    //     focus.select(".tooltip-date").text(dateFormatter(d['date']));
-    //     focus.select(".tooltip-close").text(formatValue(d['close']));
-    // } 
-
-    
 
     chartGroup.append("text")
         .attr("transform", `translate(${width / 2}, ${height + margin.top + 70})`)
@@ -396,7 +377,7 @@ function spLine(data) {
         .attr("transform", `translate(${width / 2}, ${margin.top})`)
         .attr("text-anchor", "middle")
         .attr("font-size", "35px")
-        .attr("fill", "white")
+        .attr("fill", "#c0faf4")
         .attr("stroke", "black")
         .attr("stroke-width", "1.5px")
         .attr("font-family", "sans-serif")
