@@ -61,6 +61,11 @@ footer.page-footer {
   stroke-width: 2px;
 }
 
+.path {
+  shape-rendering: crispEdges;
+  fill: none;
+}
+
 .bear {
 stroke: red;
 stroke-width: 2px;
@@ -74,4 +79,27 @@ stroke-width: 2px;
 .input {
 margin-top: 25px;
 margin-bottom: 50px;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: black;
+}
+
+.focus text {
+  font-size: 14px;
+}
+
+.tooltip {
+  fill: #c0faf4;
+  stroke: #000;
+  z-index: 5;
+}
+
+.tooltip-date, .tooltip-close {
+  font-weight: bold;
 }

@@ -56,12 +56,12 @@ function buttonClick() {
 //////////////////////////////////////////////////////////////////////////////////
 
 
-var svgWidth = 900;
+var svgWidth = 1000;
 var svgHeight = 550;
 
 var margin = {
 top: 20,
-right: 40,
+right: 140,
 bottom: 110,
 left: 100
 };
@@ -79,7 +79,8 @@ var svg = d3
 
 // Append an SVG group
 var chartGroup = svg.append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    .attr("transform", `translate(${margin.left}, ${margin.top})`)
+    .attr("class", "cg")
 // .attr("transform", `translate(0, ${margin.top})`);
 
 
@@ -99,6 +100,9 @@ function spLine(data) {
 
     // create time parser
     var parseTime = d3.timeParse("%Y-%m-%d");
+
+    var dateFormatter = d3.timeFormat("%m/%d/%y");
+    var formatValue = d3.format("$,.2f");
 
     // Modify data
     init.forEach(function(data) {
@@ -207,8 +211,17 @@ function spLine(data) {
 
     }
 
+    var bisectDate = d3.bisector(function(d) { return d['date']; }).left;
+    
+    /*
     xTimeScale = d3.scaleTime()
         .domain(d3.extent(init, d => d['date']))
+        .range([0, width]);
+    */
+
+    var endDate = new Date();
+    xTimeScale = d3.scaleTime()
+        .domain([d3.min(init, d => d['date']), endDate.setDate(d3.max(init, d => d['date']).getDate() + 10)])
         .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
@@ -240,8 +253,9 @@ function spLine(data) {
         .classed("lineY", true)
         .call(leftAxis);
 
-    console.log(marketRanges(init, threshold))
+    console.log(marketRanges(init, threshold));
 
+    
 
     // Append Chart Lines
     var chartLines = chartGroup.selectAll('.line')
@@ -259,6 +273,103 @@ function spLine(data) {
             return d.type == "bull";
         })
         //.style("stroke-width", "3px")
+
+    var focus = chartGroup.append("g")
+        .attr("class", "focus")
+        .style("display", "none");
+
+    focus.append("circle")
+        .attr("r", 5);
+    
+    focus.append("rect")
+        .attr("class", "tooltip")
+        .attr("width", 120)
+        .attr("height", 50)
+        .attr("x", 10)
+        .attr("y", -22)
+        .attr("rx", 4)
+        .attr("ry", 4);
+
+    focus.append("text")
+        .attr("class", "tooltip-date")
+        .attr("x", 18)
+        .attr("y", -2);
+
+    focus.append("text")
+        .attr("x", 18)
+        .attr("y", 18)
+        .text("Close:");
+
+    focus.append("text")
+        .attr("class", "tooltip-close")
+        .attr("x", 60)
+        .attr("y", 18);
+
+    chartGroup.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width + 20)
+        .attr("height", height)
+        .on("mouseover", function() { focus.style("display", null); })
+        .on("mouseout", function() { focus.style("display", "none"); })
+        .on("mousemove", mousemove);
+
+
+    // console.log(init);
+        
+
+    function mousemove() {
+        // console.log(xTimeScale.invert(d3.mouse(this)[0]))
+
+        var x0 = xTimeScale.invert(d3.mouse(this)[0]),
+            i = bisectDate(init, x0),
+            d0 = init[i - 1];
+
+        var d1 = init[i];
+        // console.log(d0);
+        // console.log(d1);
+        // console.log(x0);
+        var d;
+        if (d1 == null) {
+            d = d0;
+        } else {
+            d1 = init[i];
+            d = x0 - d0['date'] > d1['date'] - x0 ? d1: d0;
+        }
+
+        // console.log(x0 - d0['date'])
+        // console.log(d1['date'] - x0)
+
+        // console.log(i);
+        // console.log(d0);
+        // console.log(d1);
+        // console.log(d3.mouse(this)[0])
+        // console.log(x0)
+        // console.log(d)
+
+        focus.attr("transform", "translate(" + xTimeScale(d['date']) + ", " + yLinearScale(d['close']) + ")");
+        focus.select(".tooltip-date").text(dateFormatter(d['date']));
+        focus.select(".tooltip-close").text(formatValue(d['close']));
+    } 
+
+    // function mousemove() {
+    //     var dates = init.map(d => d['date'])
+    //     var x0 = xTimeScale.invert(d3.mouse(this)[0]),
+    //         i = bisectDate(dates, x0, 1),
+    //         d0 = init[i - 1],
+    //         d1 = init[i],
+    //         d = x0 - d0['date'] > d1['date'] - x0 ? d1: d0;
+
+    //     console.log(i);
+    //     console.log(d3.mouse(this)[0])
+    //     console.log(x0)
+    //     // console.log(d)
+
+    //     focus.attr("transform", "translate(" + xTimeScale(d['date']) + ", " + yLinearScale(d['close']) + ")");
+    //     focus.select(".tooltip-date").text(dateFormatter(d['date']));
+    //     focus.select(".tooltip-close").text(formatValue(d['close']));
+    // } 
+
+    
 
     chartGroup.append("text")
         .attr("transform", `translate(${width / 2}, ${height + margin.top + 70})`)
@@ -290,6 +401,9 @@ function spLine(data) {
         .attr("stroke-width", "1.5px")
         .attr("font-family", "sans-serif")
         .text("S&P 500 Bull and Bear Markets")
+
+    
+
 
     // console.log(marketRanges(spData, 20))
 }
