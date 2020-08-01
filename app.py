@@ -152,6 +152,10 @@ def sp_line_init():
 
     return line_json
 
+@app.route("/stock_tracker")
+def stock_tracker():
+    return render_template('stock_tracker.html')
+
 
 
 '''
